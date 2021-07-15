@@ -207,7 +207,7 @@ class UserApiControllerTest {
 
         // then
         exchange.expectStatus().isOk()
-                .expectBody(String.class)
+                .expectBody(String.class).isEqualTo(expected)
                 .consumeWith(document("delete",
                                       preprocessRequest(prettyPrint()),
                                       preprocessResponse(prettyPrint()),
