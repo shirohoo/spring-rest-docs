@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'jacoco'
     id 'org.springframework.boot' version '2.5.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'com.epages.restdocs-api-spec' version '0.11.3'
@@ -58,8 +59,71 @@ test {
     useJUnitPlatform()
 }
 
+jacocoTestReport {
+    reports {
+        html.enabled true
+        xml.enabled false
+        csv.enabled false
+
+        html.destination file("$statics/coverage")
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    '**/model/**',
+                    '**/*Application.*',
+                    '**/Q*.class',
+                    '**/test/**',
+            ])
+        }))
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            enabled = true
+
+            element = 'CLASS'
+
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.00
+            }
+
+            limit {
+                counter = 'LINE'
+                value = 'TOTALCOUNT'
+                maximum = 250
+            }
+            excludes = [
+                    '**/model/**',
+                    'Q*.class',
+                    '**/test/**',
+            ]
+        }
+    }
+}
+
+task testCoverage(type: Test) {
+    group 'verification'
+    description 'Runs the unit tests with coverage'
+
+    dependsOn(
+            ':jacocoTestReport',
+            ':jacocoTestCoverageVerification'
+    )
+
+    tasks['jacocoTestCoverageVerification'].mustRunAfter(tasks['jacocoTestReport'])
+}
+
 bootJar {
-    dependsOn(':openapi3')
+    dependsOn(
+            ':openapi3',
+            ':testCoverage'
+    )
 }
 
 openapi3 {
