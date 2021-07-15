@@ -19,8 +19,8 @@ public class UserService {
     private final UserRepository repository;
 
     @Transactional
-    public User create(User user) {
-        return repository.save(user);
+    public User create(UserRequest request) {
+        return repository.save(mapper.map(request, User.class));
     }
 
     @Transactional
@@ -32,8 +32,7 @@ public class UserService {
     public boolean delete(Long id) {
         try {
             repository.deleteById(id);
-        }
-        catch(EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException e) {
             log.error("user not found!");
             return false;
         }

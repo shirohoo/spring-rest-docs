@@ -1,17 +1,24 @@
 package io.shirohoo.docs.model;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-
+import java.time.LocalDateTime;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
+@Getter
+@Access(AccessType.FIELD)
+@ToString(callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
     @NotNull
-    private String account;
+    private String name;
 
     @NotNull
     private String email;
@@ -19,13 +26,17 @@ public class User extends BaseEntity {
     @NotNull
     private String phoneNumber;
 
-    private User(String account, String email, String phoneNumber) {
-        this.account = account;
+    private User(Long id, LocalDateTime createAt, LocalDateTime updateAt, String name, String email,
+            String phoneNumber) {
+        super(id, createAt, updateAt);
+        this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
 
-    public static User createUser(String account, String email, String phoneNumber) {
-        return new User(account, email, phoneNumber);
+    @Builder
+    public static User createUser(Long id, LocalDateTime createAt, LocalDateTime updateAt,
+            String name, String email, String phoneNumber) {
+        return new User(id, createAt, updateAt, name, email, phoneNumber);
     }
 }

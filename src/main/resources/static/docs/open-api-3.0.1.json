@@ -1,0 +1,105 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "spring-rest-docs",
+    "description" : "learn spring-rest-docs",
+    "version" : "0.0.1"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:8080"
+  } ],
+  "tags" : [ ],
+  "paths" : {
+    "/api/v1/user" : {
+      "post" : {
+        "tags" : [ "User" ],
+        "summary" : "사용자 정보 생성",
+        "description" : "사용자 정보 생성 응답",
+        "operationId" : "user",
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UserRequest"
+              },
+              "examples" : {
+                "user" : {
+                  "value" : "{\r\n  \"id\" : null,\r\n  \"name\" : \"홍길동\",\r\n  \"email\" : \"hong@email.com\",\r\n  \"phoneNumber\" : \"01012341234\"\r\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/User"
+                },
+                "examples" : {
+                  "user" : {
+                    "value" : "{\r\n  \"id\" : 1,\r\n  \"createAt\" : \"2021-07-15 17:44:26\",\r\n  \"updateAt\" : \"2021-07-15 17:44:26\",\r\n  \"name\" : \"홍길동\",\r\n  \"email\" : \"hong@email.com\",\r\n  \"phoneNumber\" : \"01012341234\"\r\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "UserRequest" : {
+        "title" : "UserRequest",
+        "type" : "object",
+        "properties" : {
+          "phoneNumber" : {
+            "type" : "string",
+            "description" : "전화번호"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "이름"
+          },
+          "email" : {
+            "type" : "string",
+            "description" : "이메일"
+          }
+        }
+      },
+      "User" : {
+        "title" : "User",
+        "type" : "object",
+        "properties" : {
+          "phoneNumber" : {
+            "type" : "string",
+            "description" : "전화번호"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "이름"
+          },
+          "updateAt" : {
+            "type" : "string",
+            "description" : "수정일"
+          },
+          "id" : {
+            "type" : "number",
+            "description" : "식별자"
+          },
+          "createAt" : {
+            "type" : "string",
+            "description" : "등록일"
+          },
+          "email" : {
+            "type" : "string",
+            "description" : "이메일"
+          }
+        }
+      }
+    }
+  }
+}
