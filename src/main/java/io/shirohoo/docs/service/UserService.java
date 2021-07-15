@@ -1,6 +1,6 @@
 package io.shirohoo.docs.service;
 
-import io.shirohoo.docs.domain.UserRequest;
+import io.shirohoo.docs.domain.UserDto;
 import io.shirohoo.docs.model.User;
 import io.shirohoo.docs.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +19,12 @@ public class UserService {
     private final UserRepository repository;
 
     @Transactional
-    public User create(UserRequest request) {
+    public User create(UserDto request) {
         return repository.save(mapper.map(request, User.class));
     }
 
     @Transactional
-    public User update(UserRequest request) {
+    public User update(UserDto request) {
         return repository.save(mapper.map(request, User.class));
     }
 
