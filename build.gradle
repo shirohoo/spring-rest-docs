@@ -1,20 +1,12 @@
 plugins {
     id 'java'
-    id 'jacoco'
     id 'org.springframework.boot' version '2.5.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'com.epages.restdocs-api-spec' version '0.11.3'
+    id 'org.asciidoctor.convert' version '1.5.8'
 }
 
 ext {
-    set('staticsDir', file('src/main/resources/static'))
-
-    excludeFilter = [
-            '**/model/**',
-            '**/*Application.*',
-            '**/Q*.class',
-            '**/test/**',
-    ]
+    set('snippetsDir', file('build/generated-snippets'))
 }
 
 group = 'io.shirohoo.docs'
@@ -51,7 +43,7 @@ dependencies {
     testImplementation(
             'org.springframework.boot:spring-boot-starter-test',
             'org.springframework.restdocs:spring-restdocs-webtestclient',
-            'com.epages:restdocs-api-spec-webtestclient:0.11.3'
+            'org.springframework.restdocs:spring-restdocs-mockmvc'
     )
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude group: "junit", module: "junit"
@@ -59,76 +51,15 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
+    asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 }
 
 test {
+    outputs.dir snippetsDir
     useJUnitPlatform()
 }
 
-jacocoTestReport {
-    reports {
-        html.enabled true
-        xml.enabled false
-        csv.enabled false
-
-        html.destination file("$staticsDir/coverage")
-    }
-
-    afterEvaluate {
-        classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: excludeFilter)
-        }))
-    }
-}
-
-jacocoTestCoverageVerification {
-    violationRules {
-        rule {
-            enabled = true
-
-            element = 'CLASS'
-
-            limit {
-                counter = 'LINE'
-                value = 'COVEREDRATIO'
-                minimum = 0.00
-            }
-
-            limit {
-                counter = 'LINE'
-                value = 'TOTALCOUNT'
-                maximum = 250
-            }
-            excludes = excludeFilter
-        }
-    }
-}
-
-task testCoverage(type: Test) {
-    group 'verification'
-    description 'Runs the unit tests with coverage'
-
-    dependsOn(
-            ':jacocoTestReport',
-            ':jacocoTestCoverageVerification'
-    )
-
-    tasks['jacocoTestCoverageVerification'].mustRunAfter(tasks['jacocoTestReport'])
-}
-
-bootJar {
-    dependsOn(
-            ':openapi3',
-            ':testCoverage'
-    )
-}
-
-openapi3 {
-    server = 'http://localhost:8080'
-    title = 'Spring-Rest-Docs + Swagger-UI + Open-API-3.0.1'
-    description 'Spring-Rest-Docs의 장점과 Swagger의 장점을 모두 가져갈 수 있는 아키텍처를 구축한다'
-    version = '0.0.1'
-    outputFileNamePrefix = 'open-api-3.0.1'
-    format = 'json'
-    outputDirectory = "$staticsDir/docs"
+asciidoctor {
+    inputs.dir snippetsDir
+    dependsOn test
 }

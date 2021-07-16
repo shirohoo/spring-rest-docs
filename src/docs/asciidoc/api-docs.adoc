@@ -1,0 +1,21 @@
+:basedir: {docdir}/../../../
+:snippets: {basedir}/build/generated-snippets
+
+= RESTful API Guide
+:doctype: user
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectnums:
+:sectlinks:
+:sectanchors:
+
+[[api]]
+=== User Api
+
+include::{snippets}/user/curl-request.adoc[]
+include::{snippets}/user/http-request.adoc[]
+include::{snippets}/user/request-fields.adoc[]
+include::{snippets}/user/http-response.adoc[]
+include::{snippets}/user/response-fields.adoc[]
