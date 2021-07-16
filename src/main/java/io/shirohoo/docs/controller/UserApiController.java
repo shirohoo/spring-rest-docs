@@ -1,6 +1,7 @@
 package io.shirohoo.docs.controller;
 
-import io.shirohoo.docs.domain.UserDto;
+import io.shirohoo.docs.domain.UserRequest;
+import io.shirohoo.docs.domain.UserResponse;
 import io.shirohoo.docs.model.User;
 import io.shirohoo.docs.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,14 +19,14 @@ public class UserApiController {
     private final ModelMapper mapper;
 
     @PostMapping("")
-    public ResponseEntity<UserDto> create(@RequestBody UserDto request) {
-        return ResponseEntity.ok(mapper.map(service.create(request), UserDto.class));
+    public ResponseEntity<UserResponse> create(@RequestBody UserRequest request) {
+        return ResponseEntity.ok(mapper.map(service.create(request), UserResponse.class));
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<UserDto> read(@PathVariable("id") Optional<User> user) {
+    public ResponseEntity<UserResponse> read(@PathVariable("id") Optional<User> user) {
         try {
-            return ResponseEntity.ok(mapper.map(user.orElseThrow(() -> new NullPointerException()), UserDto.class));
+            return ResponseEntity.ok(mapper.map(user.orElseThrow(() -> new NullPointerException()), UserResponse.class));
         }
         catch(NullPointerException e) {
             return ResponseEntity.notFound().build();
@@ -33,8 +34,8 @@ public class UserApiController {
     }
 
     @PutMapping("")
-    public ResponseEntity<UserDto> update(@RequestBody UserDto request) {
-        return ResponseEntity.ok(mapper.map(service.update(request), UserDto.class));
+    public ResponseEntity<UserResponse> update(@RequestBody UserRequest request) {
+        return ResponseEntity.ok(mapper.map(service.update(request), UserResponse.class));
     }
 
     @DeleteMapping("{id}")
@@ -43,6 +44,6 @@ public class UserApiController {
         if(!result) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok("done");
+        return ResponseEntity.ok(null);
     }
 }

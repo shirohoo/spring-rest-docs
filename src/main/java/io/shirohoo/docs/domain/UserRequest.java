@@ -5,13 +5,13 @@ import lombok.*;
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserDto {
+public class UserRequest {
     private Long id;
     private String name;
     private String email;
     private String phoneNumber;
 
-    private UserDto(Long id, String name, String email, String phoneNumber) {
+    private UserRequest(Long id, String name, String email, String phoneNumber) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -19,7 +19,7 @@ public class UserDto {
     }
 
     @Builder
-    public static UserDto createUserRequest(Long id, String name, String email, String phoneNumber) {
-        return new UserDto(id, name, email, phoneNumber);
+    public static UserRequest createUserRequest(Long id, String name, String email, String phoneNumber) {
+        return new UserRequest(id, name, email, phoneNumber);
     }
 }

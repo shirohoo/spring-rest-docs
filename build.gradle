@@ -7,7 +7,14 @@ plugins {
 }
 
 ext {
-    set('statics', file('src/main/resources/static'))
+    set('staticsDir', file('src/main/resources/static'))
+
+    excludeFilter = [
+            '**/model/**',
+            '**/*Application.*',
+            '**/Q*.class',
+            '**/test/**',
+    ]
 }
 
 group = 'io.shirohoo.docs'
@@ -27,7 +34,6 @@ configurations {
 
 repositories {
     mavenCentral()
-    maven { url "https://plugins.gradle.org/m2/" }
 }
 
 dependencies {
@@ -65,17 +71,12 @@ jacocoTestReport {
         xml.enabled false
         csv.enabled false
 
-        html.destination file("$statics/coverage")
+        html.destination file("$staticsDir/coverage")
     }
 
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: [
-                    '**/model/**',
-                    '**/*Application.*',
-                    '**/Q*.class',
-                    '**/test/**',
-            ])
+            fileTree(dir: it, exclude: excludeFilter)
         }))
     }
 }
@@ -98,11 +99,7 @@ jacocoTestCoverageVerification {
                 value = 'TOTALCOUNT'
                 maximum = 250
             }
-            excludes = [
-                    '**/model/**',
-                    'Q*.class',
-                    '**/test/**',
-            ]
+            excludes = excludeFilter
         }
     }
 }
@@ -133,5 +130,5 @@ openapi3 {
     version = '0.0.1'
     outputFileNamePrefix = 'open-api-3.0.1'
     format = 'json'
-    outputDirectory = "$statics/docs"
+    outputDirectory = "$staticsDir/docs"
 }
