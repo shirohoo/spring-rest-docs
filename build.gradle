@@ -58,3 +58,7 @@ asciidoctor {
     inputs.dir snippetsDir
     dependsOn test
 }
+
+bootJar {
+    dependsOn(':asciidoctor')
+}
