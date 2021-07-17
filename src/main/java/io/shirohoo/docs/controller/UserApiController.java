@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/user")
 public class UserApiController {
     private final UserService service;
     private final ModelMapper mapper;
