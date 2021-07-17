@@ -12,7 +12,8 @@
 :sectanchors:
 
 [[api]]
-=== User Api
+
+== User Api
 
 include::{snippets}/user/curl-request.adoc[]
 include::{snippets}/user/http-request.adoc[]
