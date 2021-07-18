@@ -150,7 +150,7 @@ class UserApiControllerTest {
 
     @Test
     @Order(3)
-    void 사용자_정보를_업데이트한다() throws Exception {
+    void 사용자_정보를_수정한다() throws Exception {
         // given
         Mono<String> request = Mono.just(mapper.writeValueAsString(UserRequest.builder()
                                                                               .id(1L)

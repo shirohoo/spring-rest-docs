@@ -22,10 +22,6 @@ archivesBaseName = 'spring-rest-docs'
 version = '0.0.1'
 sourceCompatibility = '11'
 
-jar {
-    enabled = false
-}
-
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -104,9 +100,9 @@ jacocoTestCoverageVerification {
     }
 }
 
-task testCoverage(type: Test) {
+task jacoco(type: Test) {
     group 'verification'
-    description 'Runs the unit tests with coverage'
+    description 'Runs the unit tests and verify coverage using jacoco'
 
     dependsOn(
             ':jacocoTestReport',
@@ -119,7 +115,7 @@ task testCoverage(type: Test) {
 bootJar {
     dependsOn(
             ':openapi3',
-            ':testCoverage'
+            ':jacoco'
     )
 }
 
