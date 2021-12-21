@@ -25,7 +25,7 @@ import org.springframework.test.web.servlet.result.StatusResultMatchers;
 public class AbstractControllerTests {
 
     public static final String SCHEME = "https";
-    public static final String HOST = "docs.api.com";
+    public static final String HOST = "io.github.shirohoo";
 
     @Autowired
     protected MockMvc mockMvc;
