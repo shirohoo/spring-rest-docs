@@ -1,0 +1,35 @@
+=== 생성
+:basedir: {docdir}/../../../
+:snippets: {basedir}/build/generated-snippets
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+
+==== 설명
+
+유저 추가에 성공한 경우
+
+==== 요청
+
+===== 요청 필드
+
+include::{snippets}/user-create/request-fields.adoc[]
+
+===== Curl 요청 코드
+
+include::{snippets}/user-create/curl-request.adoc[]
+
+===== 요청 예제
+
+include::{snippets}/user-create/http-request.adoc[]
+
+==== 응답
+
+===== 응답 필드
+
+include::{snippets}/user-create/response-fields.adoc[]
+
+===== 응답 예제
+
+include::{snippets}/user-create/http-response.adoc[]
